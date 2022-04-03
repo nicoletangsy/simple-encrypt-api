@@ -27,3 +27,6 @@ http://localhost:8080/aes/encrypt
 
 - Decrypt:
 http://localhost:8080/aes/decrypt
+
+Use postman to send request:
+import encryption.postman_collection.json in POSTMAN

@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "9930a279-10f1-4024-903b-f54b39548b7a",
+		"name": "encryption",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "encrypt in ECB",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "decrypt in ECB",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cipher_text\": \"C9E461E80EC3047944ACAE96A9896BC3\",\r\n    \"aes_key\": \"404D635166546A576E5A723475377721\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/aes/decrypt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"aes",
+						"decrypt"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
