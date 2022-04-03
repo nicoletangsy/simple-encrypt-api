@@ -47,7 +47,7 @@ public class EncryptionController {
 
     @RequestMapping(value = "/decrypt", method = RequestMethod.POST,
             produces = "application/json")
-    public Map dncrypt(@RequestParam(value = "cipher_text", required=true) String cipherText ,
+    public Map decrypt(@RequestParam(value = "cipher_text", required=true) String cipherText ,
                           @RequestParam(value = "aes_key", required=true) String aesKey,
                           @RequestParam(value = "cipher_mode", required=false, defaultValue="ECB") String mode,
                           @RequestParam(value = "key_length", required=false, defaultValue="256") int length,

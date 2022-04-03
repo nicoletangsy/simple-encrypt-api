@@ -29,15 +29,11 @@ public class Encrypt {
     public static String encrypt(String algorithm, String input, String aesKey, IvParameterSpec iv)
             throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
             InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        // decode the base64 encoded string
-//        byte[] decodedKey = Base64.getDecoder().decode(aesKey);
-        // rebuild key using SecretKeySpec
         byte[] byteKey = aesKey.getBytes();
         SecretKey sKey = new SecretKeySpec(byteKey, 0, byteKey.length, "AES");
         Cipher cipher = Cipher.getInstance(algorithm);
         cipher.init(Cipher.ENCRYPT_MODE, sKey);
         byte[] cipherText = cipher.doFinal(input.getBytes());
-//        return Base64.getEncoder().encodeToString(cipherText);
         return parseByte2HexStr(cipherText);
     }
 
@@ -49,7 +45,6 @@ public class Encrypt {
         byte[] byteKey = aesKey.getBytes();
         SecretKey sKey = new SecretKeySpec(byteKey, 0, byteKey.length, "AES");
         Cipher cipher = Cipher.getInstance(algorithm);
-//        cipher.init(Cipher.DECRYPT_MODE, sKey, iv);
         cipher.init(Cipher.DECRYPT_MODE, sKey);
 
         byte[] plainText = cipher.doFinal(decryptCipherText);
@@ -188,7 +183,7 @@ public class Encrypt {
         return res;
     }
 
-    public String toBase64(String decrypted) {
+    public static String toBase64(String decrypted) {
         return Base64.getEncoder().encodeToString(decrypted.getBytes());
     }
 
