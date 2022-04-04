@@ -18,7 +18,7 @@ public class EncryptTest {
     @Test
     void encryptECBSuccess()
             throws NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
-            BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
+            BadPaddingException, NoSuchPaddingException {
         // given
         String input = "Apple";
         String sKey = "404D635166546A576E5A723475377721";
@@ -26,7 +26,7 @@ public class EncryptTest {
         IvParameterSpec ivParameterSpec = Encrypt.generateIv();
 
         // when
-        String cipherText = Encrypt.encrypt(algorithm, input, sKey, ivParameterSpec);
+        String cipherText = Encrypt.encode(algorithm, input, sKey, ivParameterSpec);
 
         // then
         String res = "C9E461E80EC3047944ACAE96A9896BC3";
@@ -36,7 +36,7 @@ public class EncryptTest {
     @Test
     void decryptECBSuccess()
             throws NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
-            BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
+            BadPaddingException, NoSuchPaddingException {
         // given
         String cipherText = "C9E461E80EC3047944ACAE96A9896BC3";
         String sKey = "404D635166546A576E5A723475377721";
@@ -45,16 +45,14 @@ public class EncryptTest {
 
         // when
         String res = "Apple";
-        String plainText = Encrypt.decrypt(algorithm, cipherText, sKey, ivParameterSpec);
+        String plainText = Encrypt.decode(algorithm, cipherText, sKey, ivParameterSpec);
 
         // then
         Assertions.assertEquals(res, plainText);
     }
 
     @Test
-    void toBase64Success()
-            throws NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
-            BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
+    void toBase64Success() {
         // given
         String input = "Apple";
 
@@ -69,7 +67,7 @@ public class EncryptTest {
     @Test
     void encryptECBbyRandomKeySuccess()
             throws NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
-            BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
+            BadPaddingException, NoSuchPaddingException {
         // given
         String input = "Apple";
         SecretKey key = Encrypt.generateKey(128);
@@ -79,8 +77,8 @@ public class EncryptTest {
         IvParameterSpec ivParameterSpec = Encrypt.generateIv();
 
         // when
-        String cipherText = Encrypt.encrypt(algorithm, input, sKey, ivParameterSpec);
-        String plainText = Encrypt.decrypt(algorithm, cipherText, sKey, ivParameterSpec);
+        String cipherText = Encrypt.encode(algorithm, input, sKey, ivParameterSpec);
+        String plainText = Encrypt.decode(algorithm, cipherText, sKey, ivParameterSpec);
 
         // then
         Assertions.assertEquals(input, plainText);

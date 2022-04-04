@@ -46,6 +46,51 @@
 			"response": []
 		},
 		{
+			"name": "encrypt in ECB Invalid Case",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "plain_text",
+							"value": "Apple",
+							"type": "text"
+						},
+						{
+							"key": "aes_key",
+							"value": "404D635166546A576E5A72347537772",
+							"type": "text"
+						},
+						{
+							"key": "cipher_mode",
+							"value": "CBC",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/aes/encrypt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"aes",
+						"encrypt"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "decrypt in ECB",
 			"request": {
 				"method": "POST",
@@ -61,6 +106,51 @@
 						{
 							"key": "aes_key",
 							"value": "404D635166546A576E5A723475377721",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/aes/decrypt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"aes",
+						"decrypt"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "decrypt in ECB Invalid Case",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cipher_text",
+							"value": "C9E461E80EC3047944ACAE96A9896BC3",
+							"type": "text"
+						},
+						{
+							"key": "aes_key",
+							"value": "404D635166546A576E5A723475377721",
+							"type": "text"
+						},
+						{
+							"key": "cipher_mode",
+							"value": "CBC",
 							"type": "text"
 						}
 					],

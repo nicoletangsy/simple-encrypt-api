@@ -29,18 +29,17 @@ public class EncryptionController {
     @ResponseBody
     public Map encrypt(@RequestParam(value = "plain_text", required=true) String plainText,
                        @RequestParam(value = "aes_key", required=true) String aesKey,
-                       @RequestParam(value = "cipher_mode", required=false, defaultValue="ECB") String mode,
+                       @RequestParam(value = "cipher_mode", required=false, defaultValue="AES/ECB/PKCS5Padding") String mode,
                        @RequestParam(value = "key_length", required=false, defaultValue="256") int length,
                        @RequestParam(value = "iv", required=false, defaultValue="") String iv,
                        @RequestParam(value = "format", required=false, defaultValue="HEX") String format) {
-        Map res = new HashMap<String, String>();
         try {
-            String encrypted = encrypt.encrypt("AES/ECB/PKCS5Padding", plainText, aesKey, ivParameterSpec);
-            res.put("cipher_text", encrypted);
-            return res;
+            return encrypt.encrypt(mode, plainText, aesKey, ivParameterSpec);
         } catch (Exception e) {
+            Map res = new HashMap<String, String>();
             System.out.println(e);
-            res.put("error", e.toString());
+            res.put("success", "false");
+            res.put("reason", e.toString());
             return res;
         }
     }
@@ -49,20 +48,17 @@ public class EncryptionController {
             produces = "application/json")
     public Map decrypt(@RequestParam(value = "cipher_text", required=true) String cipherText ,
                           @RequestParam(value = "aes_key", required=true) String aesKey,
-                          @RequestParam(value = "cipher_mode", required=false, defaultValue="ECB") String mode,
+                          @RequestParam(value = "cipher_mode", required=false, defaultValue="AES/ECB/PKCS5Padding") String mode,
                           @RequestParam(value = "key_length", required=false, defaultValue="256") int length,
                           @RequestParam(value = "iv", required=false, defaultValue="") String iv,
                           @RequestParam(value = "format", required=false, defaultValue="HEX") String format) {
-        Map res = new HashMap<String, String>();
         try {
-            String decrypted = encrypt.decrypt("AES/ECB/PKCS5Padding", cipherText, aesKey, ivParameterSpec);
-            String base64res = encrypt.toBase64(decrypted);
-            res.put("plain_text", decrypted);
-            res.put("base64", base64res);
-            return res;
+            return encrypt.decrypt(mode, cipherText, aesKey, ivParameterSpec);
         } catch (Exception e) {
+            Map res = new HashMap<String, String>();
             System.out.println(e);
-            res.put("error", e.toString());
+            res.put("success", "false");
+            res.put("reason", e.toString());
             return res;
         }
     }

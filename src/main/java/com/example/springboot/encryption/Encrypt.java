@@ -23,11 +23,50 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Encrypt {
 
-    public static String encrypt(String algorithm, String input, String aesKey, IvParameterSpec iv)
-            throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
+    public Map encrypt(String mode, String input, String aesKey, IvParameterSpec iv) throws
+            NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException,
+            BadPaddingException, InvalidKeyException {
+        Map res = new HashMap<String, String>();
+
+        String algorithm = mode.equals("ECB")
+                ? "AES/ECB/PKCS5Padding" : mode;
+
+        // value checking
+        boolean isValidAlgo = algorithm.equals("AES/ECB/PKCS5Padding");
+        if (!isValidAlgo) {
+            res.put("success", "false");
+            res.put("reason", "Temporarily only support ECB encryption!");
+            return res;
+        }
+
+        if (aesKey == null) {
+            res.put("success", "false");
+            res.put("reason", "Secret Key should not be null");
+            return res;
+        }
+
+        if (aesKey.length() != 32) {
+            res.put("success", "false");
+            if (aesKey.length() == 16 || aesKey.length() == 24) {
+                res.put("reason", "Temporarily only 256-bit Secret Key");
+            } else {
+                res.put("reason", "Invalid Secret Key length");
+            }
+            return res;
+        }
+
+        String encrypted = encode(algorithm, input, aesKey, iv);
+        res.put("cipher_text", encrypted);
+        return res;
+    }
+
+    public static String encode(String algorithm, String input, String aesKey, IvParameterSpec iv)
+            throws NoSuchPaddingException, NoSuchAlgorithmException,
             InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         byte[] byteKey = aesKey.getBytes();
         SecretKey sKey = new SecretKeySpec(byteKey, 0, byteKey.length, "AES");
@@ -37,8 +76,47 @@ public class Encrypt {
         return parseByte2HexStr(cipherText);
     }
 
-    public static String decrypt(String algorithm, String cipherText, String aesKey, IvParameterSpec iv)
-            throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
+    public Map decrypt(String mode, String cipherText, String aesKey, IvParameterSpec iv) throws
+            NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException,
+            BadPaddingException, InvalidKeyException {
+        Map res = new HashMap<String, String>();
+
+        String algorithm = mode.equals("ECB")
+                ? "AES/ECB/PKCS5Padding" : mode;
+
+        // value checking
+        boolean isValidAlgo = algorithm.equals("AES/ECB/PKCS5Padding");
+        if (!isValidAlgo) {
+            res.put("success", "false");
+            res.put("reason", "Temporarily only support ECB encryption!");
+            return res;
+        }
+
+        if (aesKey == null) {
+            res.put("success", "false");
+            res.put("reason", "Secret Key should not be null");
+            return res;
+        }
+
+        if (aesKey.length() != 32) {
+            res.put("success", "false");
+            if (aesKey.length() == 16 || aesKey.length() == 24) {
+                res.put("reason", "Temporarily only 256-bit Secret Key");
+            } else {
+                res.put("reason", "Invalid Secret Key length");
+            }
+            return res;
+        }
+
+        String decrypted = decode(algorithm, cipherText, aesKey, iv);
+        String base64res = toBase64(decrypted);
+        res.put("plain_text", decrypted);
+        res.put("base64", base64res);
+        return res;
+    }
+
+    public static String decode(String algorithm, String cipherText, String aesKey, IvParameterSpec iv)
+            throws NoSuchPaddingException, NoSuchAlgorithmException,
             InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         byte[] decryptCipherText = parseHexStr2Byte(cipherText);
 
