@@ -30,3 +30,14 @@ http://localhost:8080/aes/decrypt
 
 Use postman to send request:
 import encryption.postman_collection.json in POSTMAN
+Input parameters in Body form-data:
+- Encrypt:
+```bash
+plain_text:Apple
+aes_key:404D635166546A576E5A723475377721
+```
+- Decrypt:
+```bash
+cipher_text:C9E461E80EC3047944ACAE96A9896BC3
+aes_key:404D635166546A576E5A723475377721
+```

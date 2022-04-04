@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9930a279-10f1-4024-903b-f54b39548b7a",
+		"_postman_id": "d1c13570-acfe-4926-9160-da33366f19fa",
 		"name": "encryption",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -8,8 +8,40 @@
 		{
 			"name": "encrypt in ECB",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "plain_text",
+							"value": "Apple",
+							"type": "text"
+						},
+						{
+							"key": "aes_key",
+							"value": "404D635166546A576E5A723475377721",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/aes/encrypt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"aes",
+						"encrypt"
+					]
+				}
 			},
 			"response": []
 		},
@@ -19,8 +51,19 @@
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"cipher_text\": \"C9E461E80EC3047944ACAE96A9896BC3\",\r\n    \"aes_key\": \"404D635166546A576E5A723475377721\"\r\n}",
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cipher_text",
+							"value": "C9E461E80EC3047944ACAE96A9896BC3",
+							"type": "text"
+						},
+						{
+							"key": "aes_key",
+							"value": "404D635166546A576E5A723475377721",
+							"type": "text"
+						}
+					],
 					"options": {
 						"raw": {
 							"language": "json"
